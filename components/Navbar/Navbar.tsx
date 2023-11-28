@@ -2,6 +2,7 @@ import { ConnectWallet, useAddress } from "@thirdweb-dev/react";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./Navbar.module.css";
+import { useState } from "react";
 
 /**
  * Navigation bar that shows up on all pages.
@@ -9,6 +10,11 @@ import styles from "./Navbar.module.css";
  */
 export function Navbar() {
   const address = useAddress();
+  const [isMenuOpen, setMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setMenuOpen(!isMenuOpen);
+  };
 
   return (
     <div className={styles.navContainer}>
@@ -23,7 +29,7 @@ export function Navbar() {
             />
           </Link>
 
-          <div className={styles.navMiddle}>
+          <div className={styles.navMiddle} style={{ display: isMenuOpen ? 'flex' : 'none' }}>
             <Link href="/" className={styles.link}>
               Homepage
             </Link>
@@ -48,17 +54,26 @@ export function Navbar() {
         </div>
 
         <div className={styles.navRight}>
-          <div className={styles.navConnect}>
-            <ConnectWallet theme="dark" btnTitle="Connect Wallet" hideTestnetFaucet={true} switchToActiveChain={false} welcomeScreen={{
-              title: "Welcome To MCT Marketplace",
-              subtitle: "This marketplace made with 💙  by Solazan for MCT Project",
-              img: {
-                src: "./_next/image?url=%2Fhero-asset.png&w=1080&q=100",
-                width: 300
-              },
-            }} />
+          <div className={styles.hamburger} onClick={toggleMenu}>
+            <span>&#9776;</span>
           </div>
 
+          <div className={styles.navConnect}>
+            <ConnectWallet
+              theme="dark"
+              btnTitle="Connect Wallet"
+              hideTestnetFaucet={true}
+              switchToActiveChain={false}
+              welcomeScreen={{
+                title: "Welcome To MCT Marketplace",
+                subtitle: "This marketplace made with 💙 by Solazan for MCT Project",
+                img: {
+                  src: "./_next/image?url=%2Fhero-asset.png&w=1080&q=100",
+                  width: 300,
+                },
+              }}
+            />
+          </div>
         </div>
       </nav>
     </div>

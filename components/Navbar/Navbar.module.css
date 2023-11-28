@@ -87,9 +87,91 @@
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
 }
 
-/* Sreens less than 720px */
-@media (max-width: 500px) {
-  .navConnect {
-    display: none !important;
+.navContainer {
+  background-color: #fff;
+  /* Adjust as needed */
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
+
+.navLeft {
+  display: flex;
+  align-items: center;
+}
+
+.navMiddle {
+  display: none;
+  /* Hide the middle links initially */
+}
+
+.link {
+  margin: 0 15px;
+  text-decoration: none;
+  color: #333;
+  /* Adjust as needed */
+}
+
+.hamburger {
+  float: left;
+  display: none;
+  cursor: pointer;
+}
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+  .navLeft {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .navMiddle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    top: 60px;
+    /* Adjust as needed */
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    /* Dark and semi-transparent background */
+    z-index: 1;
+    box-shadow: 0px 5px 5px -5px #333;
+    /* Adjust as needed */
+    backdrop-filter: blur(10px);
+    /* Glassmorphism effect */
+    border-radius: 10px;
+    /* Optional: Add border-radius for rounded corners */
+  }
+
+  .link {
+    margin: 10px 0;
+    color: #fff;
+    /* Adjust link text color */
+    text-decoration: none;
+    transition: color 0.3s ease;
+    /* Smooth color transition */
+  }
+
+  .link:hover {
+    color: #00bcd4;
+    /* Adjust link text color on hover */
+  }
+
+  .hamburger {
+    display: block;
+    color: #fff;
+    /* Hamburger icon color */
+    cursor: pointer;
+  }
+
+  .hamburger:hover {
+    color: #00bcd4;
+    /* Hamburger icon color on hover */
   }
 }

@@ -21,6 +21,7 @@ const Home: NextPage = () => {
                 alt="Background gradient from red to blue"
                 quality={100}
                 className={styles.gradient}
+                priority 
               />
             </div>
           </div>
@@ -32,6 +33,7 @@ const Home: NextPage = () => {
               alt="Hero asset, NFT marketplace"
               quality={100}
               className={styles.heroAsset}
+              priority 
             />
           </div>
           <div className={styles.heroBodyContainer}>

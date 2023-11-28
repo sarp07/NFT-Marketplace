@@ -8,6 +8,8 @@ import styles from '../styles/Mintable.module.css';
 import { useDropzone } from 'react-dropzone';
 import { NFT_COLLECTION_ADDRESS } from '../const/contractAddresses';
 import FailureModal from '../components/Modal/FailureModal';
+import Link from "next/link";
+import Image from "next/image";
 
 const Mintable: React.FC = () => {
 
@@ -185,7 +187,13 @@ const Mintable: React.FC = () => {
                                 <div className={styles.rightColumn}>
                                     <div className={styles.fileUpload}>
                                         {image ? <div className={`${styles.fileUploads} ${styles.selectedFile}`}>
-                                            <img src={image instanceof File ? URL.createObjectURL(image) : image} alt="Uploaded" style={{ width: '150px' }} />
+                                            <Image src={image instanceof File ? URL.createObjectURL(image) : image} 
+                                                width={150}
+                                                height={150}
+                                                alt="Background gradient from red to blue"
+                                                quality={100}
+                                                priority
+                                            />
                                         </div> :
                                             <div
                                                 {...getRootProps()}
