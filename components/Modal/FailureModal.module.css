@@ -1,0 +1,73 @@
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.726);
+    /* Yarı şeffaf arka plan */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    /* Modal'ın diğer elementlerin üstünde olmasını sağlar */
+}
+
+.modalContent {
+    background: rgba(218, 216, 216, 0.842);
+    /* Modal içeriği arka plan rengi */
+    border-radius: 8px;
+    padding: 5px 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    /* Hafif gölge efekti */
+    max-width: 800px;
+    /* Modal'ın maksimum genişliği */
+    width: 100%;
+    text-align: center;
+}
+
+.modalHeader {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.modalHeader h2 {
+    margin: 0;
+    color: #df0d0d;
+    flex-grow: 1;
+}
+
+.modalHeader button {
+    background: none;
+    border: none;
+    font-size: 50px;
+    cursor: pointer;
+    color: #df0d0d;
+    margin-left: auto;
+    /* Kapama butonunu sağa itmek için flex itemları arasında boşluk bırakır */
+}
+
+.modalBody {
+    margin-bottom: 15px;
+    font-size: 20px;
+    color: #df0d0d;
+}
+
+/* Modal'ın içeriğinin ortalanması için eklendi */
+.modalOverlay:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    margin-right: -0.25em;
+    /* Adjusts for spacing */
+}
+
+.modalContent:before {
+    content: '';
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
+    width: 0;
+}

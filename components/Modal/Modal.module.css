@@ -1,0 +1,32 @@
+/* styles.css */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.712);
+    /* Modal dışındaki arka planı karartır */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modalContent {
+    background: #ffffffb2;
+    color: #17790a;
+    width: 500px;
+    padding: 30px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.btn {
+    color: #e43636;
+    background: transparent;
+    font-size: 30px;
+    float: right;
+    cursor: pointer;
+}
+
+/* ... diğer stil tanımları ... */
