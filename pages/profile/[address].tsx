@@ -16,6 +16,7 @@ import {
 } from "../../const/contractAddresses";
 import styles from "../../styles/Profile.module.css";
 import randomColor from "../../util/randomColor";
+import Image from "next/image";
 
 const [randomColor1, randomColor2, randomColor3, randomColor4] = [
   randomColor(),
@@ -53,18 +54,24 @@ export default function ProfilePage() {
   return (
     <Container maxWidth="lg">
       <div className={styles.profileHeader}>
-        <div
-          className={styles.coverImage}
+        <div className={styles.coverImage}
           style={{
             background: `linear-gradient(90deg, ${randomColor1}, ${randomColor2})`,
-          }}
-        />
-        <div
-          className={styles.profilePicture}
+          }}>
+          <div style={{ display: "flex", float: "right", padding: "15px", color: "linear-gradient(90deg, ${randomColor1}, ${randomColor4})" }}>
+            X
+          </div>
+          <Image src="/hero-asset.png" alt="profilePicture" className={styles.coverImage} style={{ background: `linear-gradient(90deg, ${randomColor1}, ${randomColor2})`, maxWidth: "1200px", maxHeight: "300px", padding: "2px" }} width={1200} height={300} />
+        </div>
+        <div style={{ display: "flex", color: "linear-gradient(90deg, ${randomColor1}, ${randomColor4})", position: "absolute", marginLeft: "70px", marginTop: "-75px" }}>
+          X
+        </div>
+        <div className={styles.profilePicture}
           style={{
             background: `linear-gradient(90deg, ${randomColor3}, ${randomColor4})`,
-          }}
-        />
+          }}>
+          <Image src="/logo.png" alt="profilePicture" className={styles.coverImage} style={{ background: `black`, maxWidth: "132px", maxHeight: "132px", borderRadius: "50%", padding: "2px" }} width={132} height={132} />
+        </div>
         <h1 className={styles.profileName}>
           {router.query.address ? (
             router.query.address.toString().substring(0, 4) +
@@ -101,9 +108,8 @@ export default function ProfilePage() {
       </div>
 
       <div
-        className={`${
-          tab === "nfts" ? styles.activeTabContent : styles.tabContent
-        }`}
+        className={`${tab === "nfts" ? styles.activeTabContent : styles.tabContent
+          }`}
       >
         <NFTGrid
           data={ownedNfts}
@@ -113,9 +119,8 @@ export default function ProfilePage() {
       </div>
 
       <div
-        className={`${
-          tab === "listings" ? styles.activeTabContent : styles.tabContent
-        }`}
+        className={`${tab === "listings" ? styles.activeTabContent : styles.tabContent
+          }`}
       >
         {loadingDirects ? (
           <p>Loading...</p>
@@ -129,9 +134,8 @@ export default function ProfilePage() {
       </div>
 
       <div
-        className={`${
-          tab === "auctions" ? styles.activeTabContent : styles.tabContent
-        }`}
+        className={`${tab === "auctions" ? styles.activeTabContent : styles.tabContent
+          }`}
       >
         {loadingAuctions ? (
           <p>Loading...</p>

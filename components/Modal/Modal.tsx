@@ -6,7 +6,7 @@ import { NFT_COLLECTION_ADDRESS } from '../../const/contractAddresses';
 
 
 
-const Modal = ({ tokenId, onClose }) => {
+const Modal = ({ tokenId, onClose }: { tokenId: string, onClose: () => void }) => {
 
 
     const { contract } = useContract(NFT_COLLECTION_ADDRESS);

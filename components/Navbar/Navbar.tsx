@@ -2,7 +2,7 @@ import { ConnectWallet, useAddress } from "@thirdweb-dev/react";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./Navbar.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 /**
  * Navigation bar that shows up on all pages.
@@ -10,10 +10,30 @@ import { useState } from "react";
  */
 export function Navbar() {
   const address = useAddress();
-  const [isMenuOpen, setMenuOpen] = useState(false);
 
-  const toggleMenu = () => {
-    setMenuOpen(!isMenuOpen);
+  const [isMenuOpen, setMenuOpen] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(0);
+
+  useEffect(() => {
+    // Check if running on the client side
+    if (typeof window !== 'undefined') {
+      setWindowWidth(window.innerWidth);
+
+      const handleResize = () => {
+        setWindowWidth(window.innerWidth);
+      };
+
+      window.addEventListener('resize', handleResize);
+
+      // Cleanup event listener on component unmount
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      };
+    }
+  }, []);
+
+  const closeMenu = () => {
+    setMenuOpen(false);
   };
 
   return (
@@ -29,24 +49,24 @@ export function Navbar() {
             />
           </Link>
 
-          <div className={styles.navMiddle} style={{ display: isMenuOpen ? 'flex' : 'none' }}>
-            <Link href="/" className={styles.link}>
+          <div className={styles.navMiddle} style={{ display: isMenuOpen || windowWidth >= 769 ? 'flex' : 'none' }}>
+            <Link href="/" className={styles.link} onClick={closeMenu}>
               Homepage
             </Link>
-            <Link href="/collections" className={styles.link}>
+            <Link href="/collections" className={styles.link} onClick={closeMenu}>
               Collections
             </Link>
-            <Link href="/buy" className={styles.link}>
+            <Link href="/buy" className={styles.link} onClick={closeMenu}>
               Explore
             </Link>
-            <Link href="/sell" className={styles.link}>
+            <Link href="/sell" className={styles.link} onClick={closeMenu}>
               Sell
             </Link>
-            <Link href="/mintable" className={styles.link}>
+            <Link href="/mintable" className={styles.link} onClick={closeMenu}>
               Create A NFT
             </Link>
             {address && (
-              <Link className={styles.link} href={`/profile/${address}`}>
+              <Link className={styles.link} href={`/profile/${address}`} onClick={closeMenu}>
                 Profile
               </Link>
             )}
@@ -54,7 +74,7 @@ export function Navbar() {
         </div>
 
         <div className={styles.navRight}>
-          <div className={styles.hamburger} onClick={toggleMenu}>
+          <div className={styles.hamburger} onClick={() => setMenuOpen(!isMenuOpen)} style={{ display: isMenuOpen || windowWidth >= 769 ? 'none' : 'block' }}>
             <span>&#9776;</span>
           </div>
 

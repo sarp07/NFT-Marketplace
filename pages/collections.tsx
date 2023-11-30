@@ -7,7 +7,7 @@ import { NFT_COLLECTION_ADDRESS } from "../const/contractAddresses";
 export default function Buy() {
   // Load all of the NFTs from the NFT Collection
   const { contract } = useContract(NFT_COLLECTION_ADDRESS);
-  const { data, isLoading } = useNFTs(contract);
+  const { data, isLoading, error: nftError } = useNFTs(contract);
 
   return (
     <Container maxWidth="lg">
@@ -19,6 +19,9 @@ export default function Buy() {
       <NFTCollections
         data={data}
         isLoading={isLoading}
+        emptyText={
+          "Looks like there are no NFTs in this collection. Did you import your contract on the thirdweb dashboard? https://thirdweb.com/dashboard"
+        }
       />
     </Container>
   );

@@ -1,20 +1,8 @@
+/* Normal (Desktop) Görünümü */
 .mainContainer {
     position: relative;
     display: flex;
     flex-direction: column;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    gap: 20px;
-    padding: 20px;
-    top: 20px;
-}
-
-.mainContainer2 {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     gap: 20px;
@@ -27,7 +15,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    width: 1200px;
+    width: 100%;
     margin: 0 auto;
     gap: 20px;
 }
@@ -35,28 +23,31 @@
 .containerLeft {
     display: flex;
     flex-direction: column;
-    width: 1200px;
+    width: 50%;
     height: auto;
-    margin: 0 auto;
     gap: 20px;
 }
 
 .containerRight {
     display: flex;
     flex-direction: column;
-    width: 1200px;
+    width: 50%;
     height: auto;
-    margin: 0 auto;
 }
 
-.leftColumn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.label {
+    margin-bottom: 10px;
+    font-size: 16px;
 }
 
-.rightColumn {
-    height: auto;
+.input,
+.input2 {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    max-width: 500px;
 }
 
 .button {
@@ -67,48 +58,16 @@
     padding: 20px;
 }
 
-.title {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    font-size: 24px;
-    color: rgba(255, 255, 255, 0.6);
-    margin-bottom: 20px;
-}
-
-.form {
-    display: flex;
-    flex-direction: column;
-}
-
-.label {
-    margin-bottom: 10px;
-    font-size: 16px;
-    color: rgba(255, 255, 255, 0.6);
-}
-
-
-.input {
-    width: 500px;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
+.btn {
+    width: 100%;
+    max-width: 200px;
+    padding: 12px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
     border-radius: 4px;
-}
-
-.input2 {
-    width: 500px;
-    height: 100px;
-    padding: 10px;
-    text-align: justify;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-.pText {
-    display: flex;
-    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
 }
 
 .fileUpload {
@@ -122,69 +81,14 @@
     align-items: center;
 }
 
-.file-upload:hover {
-    background-color: #f9f9f9;
-}
-
-.file-upload input {
-    display: none;
-}
-
-.btn {
-    padding: 12px;
-    background-color: #4caf50;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 18px;
-}
-
-.btn:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-}
-
-.error {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-top: 15px;
-    color: red;
-    font-size: 16px;
-}
-
-.success {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-top: 15px;
-    color: rgb(60, 255, 0);
-    font-size: 16px;
-}
-
-.imageInput {
-    position: relative;
-    z-index: 1;
-}
-
-.customFileUpload {
-    position: relative;
-    overflow: hidden;
-    display: inline-block;
-}
-
 .fileUploads {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 200px;
 }
 
-.customFileUpload .selectButton {
+.selectButton {
     background-color: #3498db;
     color: #fff;
     padding: 10px 15px;
@@ -192,22 +96,20 @@
     cursor: pointer;
 }
 
-.customFileUpload .selectedFile {
+.selectedFile {
     margin-top: 10px;
     font-style: italic;
     color: #555;
 }
 
-.customFileUpload .selectedFile.dragover::before {
-    content: 'Dosya Seçildi: ';
-    font-style: normal;
-    color: #333;
-}
+/* Mobil (Tablet ve Altı) Görünümü */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
 
-.customFileUpload .selectedFile:not(.dragover)::before {
-    content: 'Drag & Drop veya Dosya Seç';
-}
-
-.customFileUpload .selectedFile.dragover {
-    background: #ecf0f5;
+    .containerLeft,
+    .containerRight {
+        width: 100%;
+    }
 }

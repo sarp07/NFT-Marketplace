@@ -8,7 +8,6 @@ import styles from '../styles/Mintable.module.css';
 import { useDropzone } from 'react-dropzone';
 import { NFT_COLLECTION_ADDRESS } from '../const/contractAddresses';
 import FailureModal from '../components/Modal/FailureModal';
-import Link from "next/link";
 import Image from "next/image";
 
 const Mintable: React.FC = () => {
@@ -162,9 +161,8 @@ const Mintable: React.FC = () => {
     };
 
     return (
-        <Container>
+        <Container maxWidth="md">
             {walletConnected ? (
-                // Cüzdan bağlıysa, NFT oluşturma formunu göster
                 <div className={styles.mainContainer}>
                     <h1 className={styles.title}>Create A NFT</h1>
                     <form className={styles.form}>
@@ -187,7 +185,7 @@ const Mintable: React.FC = () => {
                                 <div className={styles.rightColumn}>
                                     <div className={styles.fileUpload}>
                                         {image ? <div className={`${styles.fileUploads} ${styles.selectedFile}`}>
-                                            <Image src={image instanceof File ? URL.createObjectURL(image) : image} 
+                                            <Image src={image instanceof File ? URL.createObjectURL(image) : image}
                                                 width={150}
                                                 height={150}
                                                 alt="Background gradient from red to blue"
@@ -218,7 +216,7 @@ const Mintable: React.FC = () => {
                                                     onDragOver={handleDragOver}
                                                     onDragLeave={handleDragLeave}
                                                     onDrop={handleDrop}>
-                                                    Select File
+                                                    Select Image
                                                 </label>
                                             </div>}
                                     </div>
