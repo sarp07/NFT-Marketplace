@@ -188,6 +188,9 @@ export default function TokenPage({ nft, contractMetadata }: Props) {
                   </div>
                 ))}
               </div>
+              <br />
+              <br />
+              <br />
             </div>
           </div>
 
