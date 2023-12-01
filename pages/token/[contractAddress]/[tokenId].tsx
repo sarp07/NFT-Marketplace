@@ -132,16 +132,12 @@ export default function TokenPage({ nft, contractMetadata }: Props) {
               <h3 className={styles.descriptionTitle}>Traits</h3>
 
               <div className={styles.traitsContainer}>
-                {Object.entries(nft?.metadata?.attributes || {}).map(
-                  ([key, value]) => (
-                    <div className={styles.traitContainer} key={key}>
-                      <p className={styles.traitName}>{key}</p>
-                      <p className={styles.traitValue}>
-                        {value?.toString() || ""}
-                      </p>
-                    </div>
-                  )
-                )}
+                {nft?.metadata?.attributes.map((attribute, index) => (
+                  <div className={styles.traitContainer} key={index}>
+                    <p className={styles.traitName}>{attribute.trait_type}</p>
+                    <p className={styles.traitValue}>{attribute.value}</p>
+                  </div>
+                ))}
               </div>
 
               <h3 className={styles.descriptionTitle}>History</h3>
@@ -369,7 +365,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   try {
     contractMetadata = await contract.metadata.get();
-  } catch (e) {}
+  } catch (e) { }
 
   return {
     props: {

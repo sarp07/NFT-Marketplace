@@ -1,5 +1,3 @@
-// components/NFTForm.tsx
-
 import React, { ChangeEvent, useCallback, useState } from 'react';
 import { ConnectWallet, useAddress, useContract } from "@thirdweb-dev/react";
 import Container from '../components/Container/Container';
@@ -52,6 +50,13 @@ const Mintable: React.FC = () => {
         tokenId: null,
     });
 
+    const [rows, setRows] = useState([]);
+
+    const addRow = () => {
+        // Yeni bir satır eklemek için mevcut satırları kopyala ve yeni bir satır ekleyerek ayarla
+        setRows([...rows, { trait_type: '', value: '' }]);
+    };
+
     const handleMint = async () => {
         try {
             setLoading(true);
@@ -72,7 +77,17 @@ const Mintable: React.FC = () => {
                 name: name,
                 description: description,
                 image: image,
+                // Trait verilerini metadata içine ekle
+                attributes: [],
             };
+
+
+            rows.forEach((row) => {
+                metadata.attributes.push({
+                    trait_type: row.trait_type,
+                    value: row.value,
+                });
+            });
 
             const tx = await contract.erc721.mintTo(walletAddress, metadata);
 
@@ -85,6 +100,10 @@ const Mintable: React.FC = () => {
                 tokenId: tokenIdAsString,
             });
             setShowModal(true);
+            setTimeout(() => {
+                // Yönlendirme işlemi
+                window.location.href = `/token/${NFT_COLLECTION_ADDRESS}/${tokenId}`;
+            }, 5000);
         } catch (error) {
             console.error('MintTo işlemi sırasında bir hata oluştu:', error);
 
@@ -222,6 +241,58 @@ const Mintable: React.FC = () => {
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div style={{ maxWidth: "100%" }}>
+                            <h2>Properties</h2>
+                            {/* Satırları haritala */}
+
+                            {rows.map((row, index) => (
+                                <div key={index} style={{ display: "flex", flexDirection: "row", padding: "5px" }}>
+                                    <input
+                                        className={styles.input}
+                                        style={{ margin: "10px" }}
+                                        name={`attributes.${index}.trait_type`}
+                                        placeholder="trait_type"
+                                        value={row.trait_type}
+                                        onChange={(e) => {
+                                            // Satırın "trait_type" değerini güncelle
+                                            const updatedRows = [...rows];
+                                            updatedRows[index].trait_type = e.target.value;
+                                            setRows(updatedRows);
+                                        }}
+                                    />
+                                    <input
+                                        className={styles.input}
+                                        style={{ margin: "10px" }}
+                                        name={`attributes.${index}.value`}
+                                        placeholder="value"
+                                        value={row.value}
+                                        onChange={(e) => {
+                                            // Satırın "value" değerini güncelle
+                                            const updatedRows = [...rows];
+                                            updatedRows[index].value = e.target.value;
+                                            setRows(updatedRows);
+                                        }}
+                                    />
+                                    <button
+                                        className={styles.selectButton}
+                                        style={{ margin: "10px", backgroundColor: "red", float: "right" }}
+                                        type="button"
+                                        onClick={() => {
+                                            // Satırı kaldır
+                                            const updatedRows = [...rows];
+                                            updatedRows.splice(index, 1);
+                                            setRows(updatedRows);
+                                        }}
+                                    >
+                                        Remove
+                                    </button>
+                                </div>
+                            ))}
+                            {/* "Add Row" butonu */}
+                            <button className={styles.selectButton} type="button" onClick={addRow}>
+                                + Add Row
+                            </button>
                         </div>
                         <div className={styles.button}>
                             <button type="button" onClick={handleMint} disabled={loading} className={styles.btn}>
