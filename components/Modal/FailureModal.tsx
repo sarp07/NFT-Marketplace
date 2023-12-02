@@ -2,7 +2,6 @@ import React from 'react';
 import styles from './FailureModal.module.css';
 
 interface ModalProps {
-    tokenId: string | null;
     onClose: () => void;
     error: string;
 }

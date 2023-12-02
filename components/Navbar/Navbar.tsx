@@ -46,6 +46,7 @@ export function Navbar() {
               width={48}
               height={48}
               alt="NFT marketplace sample logo"
+              priority
             />
           </Link>
 

@@ -17,11 +17,7 @@ export default function Buy() {
       <br />
       <br />
       <NFTCollections
-        data={data}
-        isLoading={isLoading}
-        emptyText={
-          "Looks like there are no NFTs in this collection. Did you import your contract on the thirdweb dashboard? https://thirdweb.com/dashboard"
-        }
+        nft={data}
       />
     </Container>
   );
