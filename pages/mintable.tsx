@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useCallback, useState } from 'react';
-import { useAddress, useContract } from "@thirdweb-dev/react";
+import { useAddress, useContract, walletConnect } from "@thirdweb-dev/react";
 import Container from '../components/Container/Container';
 import Modal from '../components/Modal/Modal';
 import styles from '../styles/Mintable.module.css';
@@ -53,7 +53,6 @@ const Mintable: React.FC = () => {
         onDrop,
         accept: 'image/*' as any,
     });
-
 
     const [showModal, setShowModal] = useState(false);
     const [statusMessage, setStatusMessage] = useState('');
@@ -186,7 +185,6 @@ const Mintable: React.FC = () => {
         }
     };
 
-
     const readFileAsDataURL = (file: File): Promise<string> => {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
@@ -231,12 +229,6 @@ const Mintable: React.FC = () => {
             alert((error as Error).message || 'Upload failure. Please check the console for details.');
         }
     };
-
-    if (!walletAddress) return (
-        < Container maxWidth="md" >
-            <div> No wallet connected ! </div>
-        </Container >
-    )
 
     return (
         <Container maxWidth="md">
@@ -287,7 +279,7 @@ const Mintable: React.FC = () => {
                                                 onDragOver={handleDragOver}
                                                 onDragLeave={handleDragLeave}
                                                 onDrop={handleDrop}>
-                                                 <label htmlFor="fileInput">Select Image</label>
+                                                <label htmlFor="fileInput">Select Image</label>
                                             </div>
                                         </div>}
                                 </div>
@@ -346,11 +338,17 @@ const Mintable: React.FC = () => {
                             + Add Row
                         </button>
                     </div>
-                    <div className={styles.button}>
-                        <button type="button" onClick={handleMint} disabled={loading} className={styles.btn}>
-                            {loading ? 'Creating.....' : 'Create A NFT'}
-                        </button>
-                    </div>
+                    {walletAddress ? (
+                        <div className={styles.button}>
+                            <button type="button" onClick={handleMint} disabled={loading} className={styles.btn}>
+                                {loading ? 'Creating.....' : 'Create A NFT'}
+                            </button>
+                        </div>
+                    ) : (
+                        <div className={styles.button}>
+                            <p style={{color: "red"}}>You should connect Web3 wallet !</p>
+                        </div>
+                    )}
                     {showModal && createdNFT && (
                         <Modal tokenId={createdNFT.tokenId} onClose={handleCloseModal} />
                     )}
