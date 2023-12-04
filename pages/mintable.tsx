@@ -149,19 +149,19 @@ const Mintable: React.FC = () => {
         setShowFailureModal(false);
     };
 
-    const handleDragOver = (e) => {
+    const handleDragOver = (e: any) => {
         e.preventDefault();
         e.stopPropagation();
         e.target.classList.add(styles.dragover);
     };
 
-    const handleDragLeave = (e) => {
+    const handleDragLeave = (e: any) => {
         e.preventDefault();
         e.stopPropagation();
         e.target.classList.remove(styles.dragover);
     };
 
-    const handleDrop = (e) => {
+    const handleDrop = (e: any) => {
         e.preventDefault();
         e.stopPropagation();
         e.target.classList.remove(styles.dragover);
