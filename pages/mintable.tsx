@@ -110,10 +110,14 @@ const Mintable: React.FC = () => {
 
             const metadataString = JSON.stringify(metadata);
             const tx = await contract.erc721.mintTo(walletAddress, metadataString);
-
+            console.log('Transaction Result:', tx);
             const { id: tokenId } = tx;
 
             const tokenIdAsString = tokenId?.toString() ?? '';
+
+            if (!tx) {
+                throw new Error('Minting process failed.');
+            }
 
             setStatusMessage('NFT Created Successfully');
             setCreatedNFT({
@@ -125,12 +129,13 @@ const Mintable: React.FC = () => {
             }, 5000);
         } catch (error) {
             console.error('MintTo işlemi sırasında bir hata oluştu:', error);
-
+            console.log(error);
             setStatusMessage('Oops! Something went wrong!');
             setError((error as Error).message || 'An unknown error occurred.'); // Add type assertion here
             setShowFailureModal(true);
         } finally {
             setLoading(false);
+            console.log(error);
         }
     };
 
@@ -144,73 +149,39 @@ const Mintable: React.FC = () => {
         setShowFailureModal(false);
     };
 
-    const handleDragOver: React.DragEventHandler<HTMLDivElement> = (e) => {
+    const handleDragOver = (e) => {
         e.preventDefault();
         e.stopPropagation();
-
-        const file = e.dataTransfer.items[0];
-
-        if (file && file.kind === 'file' && file.type.startsWith('image/')) {
-            if (e.currentTarget instanceof HTMLDivElement) {
-                e.currentTarget.classList.add(styles.dragover);
-            }
-        }
+        e.target.classList.add(styles.dragover);
     };
 
-    const handleDrop: React.DragEventHandler<HTMLDivElement> = async (e) => {
+    const handleDragLeave = (e) => {
         e.preventDefault();
         e.stopPropagation();
+        e.target.classList.remove(styles.dragover);
+    };
 
-        if (e.currentTarget instanceof HTMLDivElement) {
-            e.currentTarget.classList.remove(styles.dragover);
-        }
+    const handleDrop = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        e.target.classList.remove(styles.dragover);
 
         const file = e.dataTransfer.files[0];
-
-        if (file instanceof File) {
-            try {
-                const result = await readFileAsDataURL(file);
-                setImage(result);
-            } catch (error) {
-                console.error('Error reading file:', error);
-            }
-        }
-    };
-
-    const handleDragLeave: React.DragEventHandler<HTMLDivElement> = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        if (e.currentTarget instanceof HTMLDivElement) {
-            e.currentTarget.classList.remove(styles.dragover);
-        }
-    };
-
-    const readFileAsDataURL = (file: File): Promise<string> => {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-
-            reader.onload = (event) => {
-                if (event.target instanceof FileReader && event.target.result) {
-                    resolve(event.target.result as string);
-                } else {
-                    reject(new Error('Failed to read file.'));
-                }
-            };
-
-            reader.readAsDataURL(file);
-        });
+        setImage(file);
     };
 
     const isValidImageType = (file: File): boolean => {
         const allowedImageTypes = ['image/png', 'image/gif', 'image/webp', 'image/jpeg'];
 
+        // MIME tipini al
         const fileType = file.type;
 
-        const fileExtension = path.extname(file.name).toLowerCase();
+        // Dosya uzantısını al
+        const fileExtension = file.name.split('.').pop()?.toLowerCase();
 
-        return allowedImageTypes.includes(fileType) || allowedImageTypes.includes(`image/${fileExtension}`);
+        // MIME tipi ve uzantıyı kontrol et
+        return allowedImageTypes.includes(fileType) && allowedImageTypes.includes(`image/${fileExtension}`);
     };
-
 
     const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
         try {
@@ -220,15 +191,113 @@ const Mintable: React.FC = () => {
                 throw new Error('No file selected.');
             }
 
+            // Dosya türünü ve uzantısını kontrol et
             if (!isValidImageType(file)) {
                 throw new Error('Invalid file type. Please select a .png, .gif, .webp, .jpg, or .jpeg file.');
             }
 
+            // Diğer işlemler...
         } catch (error) {
             console.error('Image upload failed:', error);
             alert((error as Error).message || 'Upload failure. Please check the console for details.');
         }
     };
+
+    // const handleCloseModal = () => {
+    //     // Modal'ı kapat
+    //     setShowModal(false);
+    // };
+
+    // const handleCloseFailureModal = () => {
+    //     // Modal'ı kapat
+    //     setShowFailureModal(false);
+    // };
+
+    // const handleDragOver: React.DragEventHandler<HTMLDivElement> = (e) => {
+    //     e.preventDefault();
+    //     e.stopPropagation();
+
+    //     const file = e.dataTransfer.items[0];
+
+    //     if (file && file.kind === 'file' && file.type.startsWith('image/')) {
+    //         if (e.currentTarget instanceof HTMLDivElement) {
+    //             e.currentTarget.classList.add(styles.dragover);
+    //         }
+    //     }
+    // };
+
+    // const handleDrop: React.DragEventHandler<HTMLDivElement> = async (e) => {
+    //     e.preventDefault();
+    //     e.stopPropagation();
+
+    //     if (e.currentTarget instanceof HTMLDivElement) {
+    //         e.currentTarget.classList.remove(styles.dragover);
+    //     }
+
+    //     const file = e.dataTransfer.files[0];
+
+    //     if (file instanceof File) {
+    //         try {
+    //             const result = await readFileAsDataURL(file);
+    //             setImage(result);
+    //         } catch (error) {
+    //             console.error('Error reading file:', error);
+    //         }
+    //     }
+    // };
+
+    // const handleDragLeave: React.DragEventHandler<HTMLDivElement> = (e) => {
+    //     e.preventDefault();
+    //     e.stopPropagation();
+    //     if (e.currentTarget instanceof HTMLDivElement) {
+    //         e.currentTarget.classList.remove(styles.dragover);
+    //     }
+    // };
+
+    // const readFileAsDataURL = (file: File): Promise<string> => {
+    //     return new Promise((resolve, reject) => {
+    //         const reader = new FileReader();
+
+    //         reader.onload = (event) => {
+    //             if (event.target instanceof FileReader && event.target.result) {
+    //                 resolve(event.target.result as string);
+    //             } else {
+    //                 reject(new Error('Failed to read file.'));
+    //             }
+    //         };
+
+    //         reader.readAsDataURL(file);
+    //     });
+    // };
+
+    // const isValidImageType = (file: File): boolean => {
+    //     const allowedImageTypes = ['image/png', 'image/gif', 'image/webp', 'image/jpeg'];
+
+    //     const fileType = file.type;
+
+    //     const fileExtension = path.extname(file.name).toLowerCase();
+
+    //     return allowedImageTypes.includes(fileType) || allowedImageTypes.includes(`image/${fileExtension}`);
+    // };
+
+
+    // const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    //     try {
+    //         const file = e.target.files && e.target.files[0];
+
+    //         if (!file) {
+    //             throw new Error('No file selected.');
+    //         }
+
+    //         if (!isValidImageType(file)) {
+    //             throw new Error('Invalid file type. Please select a .png, .gif, .webp, .jpg, or .jpeg file.');
+    //         }
+
+    //     } catch (error) {
+    //         console.error('Image upload failed:', error);
+    //         alert((error as Error).message || 'Upload failure. Please check the console for details.');
+    //     }
+    // };
 
     return (
         <Container maxWidth="md">
@@ -346,7 +415,7 @@ const Mintable: React.FC = () => {
                         </div>
                     ) : (
                         <div className={styles.button}>
-                            <p style={{color: "red"}}>You should connect Web3 wallet !</p>
+                            <p style={{ color: "red" }}>You should connect Web3 wallet !</p>
                         </div>
                     )}
                     {showModal && createdNFT && (
