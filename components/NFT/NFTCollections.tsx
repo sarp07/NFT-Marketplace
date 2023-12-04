@@ -49,7 +49,7 @@ function ArtistNFTs({ artist }: { artist : any }) {
                     <NFTGrid
                         data={ownedNFTs}
                         isLoading={nftLoading}
-                        emptyText="Looks like you don't have any NFTs from this collection. Head to the buy page to buy some!"
+                        emptyText="This Artist not created NFT yet."
                     />
                     <br />
                 </div>
