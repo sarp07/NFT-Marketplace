@@ -109,7 +109,7 @@ const Mintable: React.FC = () => {
             });
 
             const metadataString = JSON.stringify(metadata);
-            const tx = await contract.erc721.mintTo(walletAddress, metadataString);
+            const tx = await contract.erc721.mintTo(walletAddress, metadata);
             console.log('Transaction Result:', tx);
             const { id: tokenId } = tx;
 
@@ -357,7 +357,6 @@ const Mintable: React.FC = () => {
                     </div>
                     <div style={{ maxWidth: "100%" }}>
                         <h2>Properties</h2>
-                        {/* Satırları haritala */}
 
                         {rows.map((row, index) => (
                             <div key={index} style={{ display: "flex", flexDirection: "row", padding: "5px" }}>
