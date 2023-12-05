@@ -108,8 +108,16 @@ const Mintable: React.FC = () => {
                 });
             });
 
-            const metadataString = JSON.stringify(metadata);
-            const tx = await contract.erc721.mintTo(walletAddress, metadata);
+            const metadataObject = {
+                // ... diğer gerekli alanlar
+                attributes: metadata.attributes,
+                description: metadata.description,
+                image: metadata.image,
+                name: metadata.name,
+            };
+
+            // const metadataString = JSON.stringify(metadata);
+            const tx = await contract.erc721.mintTo(walletAddress, metadataObject);
             console.log('Transaction Result:', tx);
             const { id: tokenId } = tx;
 
