@@ -84,7 +84,7 @@ export function Navbar() {
               theme="dark"
               btnTitle="Connect Wallet"
               hideTestnetFaucet={true}
-              switchToActiveChain={false}
+              switchToActiveChain={true}
               welcomeScreen={{
                 title: "Welcome To MCT Marketplace",
                 subtitle: "This marketplace made with 💙 by Solazan for MCT Project",
