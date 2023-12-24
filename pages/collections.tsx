@@ -4,7 +4,7 @@ import Container from "../components/Container/Container";
 import NFTCollections from "../components/NFT/NFTCollections";
 import { NFT_COLLECTION_ADDRESS } from "../const/contractAddresses";
 
-export default function Buy() {
+export default function Collections() {
   // Load all of the NFTs from the NFT Collection
   const { contract } = useContract(NFT_COLLECTION_ADDRESS);
   const { data, isLoading, error: nftError } = useNFTs(contract);

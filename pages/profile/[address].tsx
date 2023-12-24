@@ -1,11 +1,12 @@
 import {
+  useAddress,
   useContract,
   useOwnedNFTs,
   useValidDirectListings,
   useValidEnglishAuctions,
 } from "@thirdweb-dev/react";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Container from "../../components/Container/Container";
 import ListingWrapper from "../../components/ListingWrapper/ListingWrapper";
 import NFTGrid from "../../components/NFT/NFTGrid";
@@ -17,7 +18,8 @@ import {
 import styles from "../../styles/Profile.module.css";
 import randomColor from "../../util/randomColor";
 import Image from "next/image";
-import ProfilePicture from "../../components/ProfilePicture/profilePicture";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUpload } from '@fortawesome/free-solid-svg-icons';
 
 const [randomColor1, randomColor2, randomColor3, randomColor4] = [
   randomColor(),
@@ -29,6 +31,30 @@ const [randomColor1, randomColor2, randomColor3, randomColor4] = [
 export default function ProfilePage() {
   const router = useRouter();
   const [tab, setTab] = useState<"nfts" | "listings" | "auctions">("nfts");
+  const [profileImage, setProfileImage] = useState('/default-profile.png');
+  const [coverImage, setCoverImage] = useState('/default-cover.png');
+  const userAddress = useAddress();
+  const profileAddress = router.query.address;
+
+  const isUserOwnProfile = userAddress === profileAddress;
+
+  const handleProfileImageChange = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setProfileImage(reader.result);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleCoverImageChange = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setCoverImage(reader.result);
+    };
+    reader.readAsDataURL(file);
+  };
 
   const { contract: nftCollection } = useContract(NFT_COLLECTION_ADDRESS);
 
@@ -54,26 +80,48 @@ export default function ProfilePage() {
 
   return (
     <Container maxWidth="lg">
+      {/* Profil header */}
       <div className={styles.profileHeader}>
+        {/* Kapak resmi */}
         <div className={styles.coverImage}
           style={{
-            background: `linear-gradient(90deg, ${randomColor1}, ${randomColor2})`,
+            backgroundImage: `url(${coverImage})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
           }}>
-          <Image src="/hero-asset.png" alt="profilePicture" className={styles.coverImage} style={{ background: `linear-gradient(90deg, ${randomColor1}, ${randomColor2})`, maxWidth: "1200px", maxHeight: "300px", padding: "2px" }} width={1200} height={300} />
-        </div>
-        <div className={styles.profilePicture}>
-          <ProfilePicture userAddress={router.query.address} />
-        </div>
-        <br />
-        <h1 className={styles.profileName}>
-          {router.query.address ? (
-            router.query.address.toString().substring(0, 6) +
-            "..." +
-            router.query.address.toString().substring(38, 42)
-          ) : (
-            <Skeleton width="320" />
+          {isUserOwnProfile && (
+            <>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleCoverImageChange}
+                style={{ display: 'none' }}
+                id="cover-image-upload"
+              />
+              <label htmlFor="cover-image-upload" className={styles.uploadButton}>
+                <FontAwesomeIcon icon={faUpload} className={styles.customIcon} />
+              </label>
+            </>
           )}
-        </h1>
+        </div>
+        {/* Profil resmi */}
+        <div className={styles.profilePicture}>
+          <Image src={profileImage} alt="Profile" width={132} height={132} style={{ borderRadius: "132px" }} />
+          {isUserOwnProfile && (
+            <>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleProfileImageChange}
+                style={{ display: 'none' }}
+                id="profile-image-upload"
+              />
+              <label htmlFor="profile-image-upload" className={styles.uploadButton}>
+                <FontAwesomeIcon icon={faUpload} className={styles.customIcon2} />
+              </label>
+            </>
+          )}
+        </div>
       </div>
 
       <div className={styles.tabs}>
