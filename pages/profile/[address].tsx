@@ -38,23 +38,32 @@ export default function ProfilePage() {
 
   const isUserOwnProfile = userAddress === profileAddress;
 
-  const handleProfileImageChange = (e) => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setProfileImage(reader.result);
-    };
-    reader.readAsDataURL(file);
+  const handleProfileImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files ? e.target.files[0] : null;
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        if (typeof reader.result === 'string') {
+          setProfileImage(reader.result);
+        }
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
-  const handleCoverImageChange = (e) => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setCoverImage(reader.result);
-    };
-    reader.readAsDataURL(file);
+  const handleCoverImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files ? e.target.files[0] : null;
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        if (typeof reader.result === 'string') {
+          setCoverImage(reader.result);
+        }
+      };
+      reader.readAsDataURL(file);
+    }
   };
+
 
   const { contract: nftCollection } = useContract(NFT_COLLECTION_ADDRESS);
 
